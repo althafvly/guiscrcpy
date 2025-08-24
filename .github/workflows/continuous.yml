@@ -9,9 +9,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: actions/setup-python@v1
+    - uses: actions/setup-python@v4
       with:
-        python-version: 3.9
+        python-version: 3.13
 
     - name: Build wheel
       run: |
@@ -19,7 +19,7 @@ jobs:
         poetry build
         
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: guiscrcpy-python
         path: dist/
@@ -44,8 +44,8 @@ jobs:
         run: git fetch --tags --force
       - name: Build
         run: |
-          # force usage of PySide2 to prevent having surprises with pyinstaller.
-          sed -i 's/qtpy/PySide2/g' **/*.py
+          # force usage of PySide6 to prevent having surprises with pyinstaller.
+          sed -i 's/qtpy/PySide6/g' **/*.py
           docker build -t guiscrcpy-appimage-build -f scripts/ci/pyappimage/Dockerfile .
           docker run --rm -v $(pwd):/usr/src guiscrcpy-appimage-build
           ls -al 
@@ -68,7 +68,7 @@ jobs:
           export GUISCRCPY_TYPE="r"
           ./scripts/build-appimage.sh
 
-      - name: Install Destop Environment
+      - name: Install Desktop Environment
         run: |
           echo "adapted from https://github.com/AppImage/appimage.github.io/blob/master/.travis.yml"
           sudo apt-get update
@@ -94,7 +94,7 @@ jobs:
           /usr/bin/xvfb-run --auto-servernum ./scripts/display-ci.sh "$(realpath _build/*.AppImage)"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4
         with:
           name: guiscrcpy-${{ matrix.type }}-continuous-x86_64.AppImage
           path: '_build'
@@ -105,16 +105,16 @@ jobs:
     runs-on: windows-latest
     strategy: 
       matrix:
-        arch: ['x64', 'x86']
-        qt: ['PyQt5', 'PySide2']
+        arch: ['x64']
+        qt: ['PyQt6', 'PySide6']
     steps:
       - name: Checkout
         uses: actions/checkout@v1
 
       - name: Setup Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.13'
           architecture: ${{ matrix.arch }}
 
       - name: Install dependencies
@@ -132,7 +132,7 @@ jobs:
           python -m PyInstaller -n guiscrcpy-${{ matrix.qt }}-${{ matrix.arch }} .\entry.py --onefile -i guiscrcpy\ui\icons\guiscrcpy_logo_SRj_icon.ico --hidden-import pywin32
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4
         with:
           # Artifact name
           name: guiscrcpy-${{ matrix.qt }}-${{ matrix.arch }}-continuous.exe
@@ -145,16 +145,16 @@ jobs:
     runs-on: macos-latest
     strategy: 
       matrix:
-        arch: ['x64']
-        qt: ['PySide2']
+        arch: ['x64', 'arm64']
+        qt: ['PySide6']
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.13'
           architecture: ${{ matrix.arch }}
 
 
@@ -171,7 +171,7 @@ jobs:
           python -m PyInstaller -n guiscrcpy-${{ matrix.qt }}-${{ matrix.arch }} ./entry.py --onefile -i guiscrcpy/ui/icons/guiscrcpy_logo_SRj_icon.ico --osx-bundle-identifier 'io.github.srevinsaju.guiscrcpy' --windowed
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4
         with:
           # Artifact name
           name: guiscrcpy-${{ matrix.qt }}-${{ matrix.arch }}-continuous.app
@@ -184,22 +184,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/download-artifact@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-    - name: Create release and upload artifacts
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        CHANGELOG_TYPE: conventional
-      run: |
-        ls -alHR
-        export APPIMAGE_EXTRACT_AND_RUN=1
-        wget -q https://github.com/srevinsaju/pyuploadtool/releases/download/continuous/pyuploadtool-x86_64.AppImage && chmod +x pyuploadtool-x86_64.AppImage
-        ./pyuploadtool-x86_64.AppImage \
-          guiscrcpy-PyQt5-x64-continuous.exe/guiscrcpy-PyQt5-x64.exe \
-          guiscrcpy-PyQt5-x86-continuous.exe/guiscrcpy-PyQt5-x86.exe \
-          guiscrcpy-PySide2-x64-continuous.app/guiscrcpy-PySide2-x64 \
-          guiscrcpy-PySide2-x64-continuous.exe/guiscrcpy-PySide2-x64.exe \
-          guiscrcpy-PySide2-x86-continuous.exe/guiscrcpy-PySide2-x86.exe \
-          guiscrcpy-m-continuous-x86_64.AppImage/guiscrcpy*x86_64.AppImage \
-          guiscrcpy-python/guiscrcpy*.* \
-          guiscrcpy-r-continuous-x86_64.AppImage/guiscrcpy*.AppImage
+      - uses: actions/download-artifact@v5
+        with:
+          path: artifacts
+
+      - name: List artifacts
+        run: ls -alHR artifacts
+
+      - name: Upload Release Assets
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "${{ env.GITHUB_SHA }}"
+          files: |
+            artifacts/guiscrcpy-PyQt6-x64-continuous.exe/guiscrcpy-PyQt6-x64.exe
+            artifacts/guiscrcpy-PySide6-x64-continuous.app/guiscrcpy-PySide6-x64
+            artifacts/guiscrcpy-PySide6-arm64-continuous.app/guiscrcpy-PySide6-arm64
+            artifacts/guiscrcpy-PySide6-x64-continuous.exe/guiscrcpy-PySide6-x64.exe
+            artifacts/guiscrcpy-m-continuous-x86_64.AppImage/guiscrcpy*x86_64.AppImage
+            artifacts/guiscrcpy-python/guiscrcpy*.*
+            artifacts/guiscrcpy-r-continuous-x86_64.AppImage/guiscrcpy*.AppImage
+

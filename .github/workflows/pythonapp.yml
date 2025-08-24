@@ -12,32 +12,31 @@ on:
       - 'guiscrcpy/**'
       - '.github/workflows/pythonapp.yml'
 
-
 jobs:
   quality:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.x
       uses: actions/setup-python@v1
       with:
-        python-version: 3.9
+        python-version: 3.13
     - name: Install dependencies
       run: |
         python -m pip install --upgrade poetry wheel
-        poetry install -E PySide2
+        poetry install -E PySide6
         poetry build
         pip3 install dist/*.whl
 
     - name: Lint with flake8
       run: |
         poetry run black --check guiscrcpy --exclude guiscrcpy/ui
-        
+
     - name: Build
       run: |
         poetry build
 
-    - name: Install Destop Environment
+    - name: Install Desktop Environment
       run: |
         echo "adapted from https://github.com/AppImage/appimage.github.io/blob/master/.travis.yml"
         sudo apt-get update
@@ -51,15 +50,15 @@ jobs:
         echo "TaskBarShowMailboxStatus = 0" > $HOME/.icewm/preferences
         echo "TaskBarShowCPUStatus = 0" > $HOME/.icewm/preferences
         echo "TaskBarShowWindowListMenu = 0" > $HOME/.icewm/preferences
-        
-        
+
     - name: Run headless test
       run: |
         chmod +x scripts/display-ci.sh
         /usr/bin/xvfb-run --auto-servernum ./scripts/display-ci.sh "poetry run guiscrcpy"
- 
+
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: guiscrcpy-screenshot.png
         path: screenshot.png
+

@@ -100,7 +100,7 @@ class Ui_HorizontalPanel(object):
         font.setFamily("Noto Sans")
         font.setPointSize(18)
         font.setBold(True)
-        font.setWeight(75)
+        font.setWeight(QFont.Weight.DemiBold)
         self.label.setFont(font)
         self.label.setScaledContents(True)
         self.label.setAlignment(QtCore.Qt.AlignCenter)

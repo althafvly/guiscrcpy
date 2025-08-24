@@ -41,7 +41,7 @@ class Ui_NetworkUI(object):
         self.spinBox = QtWidgets.QSpinBox(self.layoutWidget)
         font = QtGui.QFont()
         font.setBold(True)
-        font.setWeight(75)
+        font.setWeight(QFont.Weight.DemiBold)
         self.spinBox.setFont(font)
         self.spinBox.setToolTipDuration(2)
         self.spinBox.setMinimum(1000)

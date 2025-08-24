@@ -38,7 +38,7 @@ class Ui_Initializer(object):
         font.setFamily("Titillium Web")
         font.setPointSize(30)
         font.setBold(True)
-        font.setWeight(75)
+        font.setWeight(QFont.Weight.DemiBold)
         self.stat.setFont(font)
         self.stat.setScaledContents(False)
         self.stat.setAlignment(QtCore.Qt.AlignCenter)

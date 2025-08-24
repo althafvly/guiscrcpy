@@ -8,12 +8,12 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
     QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
     QPixmap, QRadialGradient)
-from PySide2.QtWidgets import *
+from PySide6.QtWidgets import *
 
 from  . import rsrc_rc
 
@@ -102,7 +102,7 @@ class Ui_HorizontalPanel(object):
         font.setFamily(u"Noto Sans")
         font.setPointSize(18)
         font.setBold(True)
-        font.setWeight(75)
+        font.setWeight(QFont.Weight.DemiBold)
         self.label.setFont(font)
         self.label.setScaledContents(True)
         self.label.setAlignment(Qt.AlignCenter)

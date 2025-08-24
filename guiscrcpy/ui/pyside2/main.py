@@ -8,13 +8,13 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
     QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
     QPixmap, QRadialGradient)
-from PySide2.QtGui import QGradient
-from PySide2.QtWidgets import *
+from PySide6.QtGui import QGradient
+from PySide6.QtWidgets import *
 
 from  . import rsrc_rc
 
@@ -221,7 +221,7 @@ class Ui_MainWindow(object):
         font2.setPointSize(10)
         font2.setBold(False)
         font2.setItalic(False)
-        font2.setWeight(50)
+        font2.setWeight(QFont.Weight.Normal)
         self.recScui.setFont(font2)
         self.recScui.setToolTipDuration(2)
         icon6 = QIcon()
@@ -375,7 +375,7 @@ class Ui_MainWindow(object):
         font5.setPointSize(11)
         font5.setBold(False)
         font5.setItalic(False)
-        font5.setWeight(50)
+        font5.setWeight(QFont.Weight.Normal)
         self.dimensionDefaultCheckbox.setFont(font5)
         self.dimensionDefaultCheckbox.setChecked(True)
 
@@ -397,7 +397,7 @@ class Ui_MainWindow(object):
         font6.setFamily(u"Titillium Web")
         font6.setPointSize(26)
         font6.setBold(True)
-        font6.setWeight(75)
+        font6.setWeight(QFont.Weight.DemiBold)
         self.bitrateText.setFont(font6)
         self.bitrateText.setStyleSheet(u"color: rgb(0, 0, 0);\n"
 "border-radius: 10px;\n"
@@ -516,7 +516,7 @@ class Ui_MainWindow(object):
         font8.setFamily(u"Titillium Web")
         font8.setPointSize(11)
         font8.setBold(True)
-        font8.setWeight(75)
+        font8.setWeight(QFont.Weight.DemiBold)
         self.pushButton.setFont(font8)
         self.pushButton.setToolTipDuration(2)
 
@@ -574,7 +574,7 @@ class Ui_MainWindow(object):
         font9.setPointSize(11)
         font9.setBold(True)
         font9.setItalic(False)
-        font9.setWeight(75)
+        font9.setWeight(QFont.Weight.DemiBold)
         self.executeaction.setFont(font9)
         self.executeaction.setStyleSheet(u"")
         icon18 = QIcon()
@@ -729,7 +729,7 @@ class Ui_MainWindow(object):
         font10.setPointSize(28)
         font10.setBold(True)
         font10.setItalic(False)
-        font10.setWeight(75)
+        font10.setWeight(QFont.Weight.DemiBold)
         self.label_3.setFont(font10)
         self.label_3.setStyleSheet(u"")
 

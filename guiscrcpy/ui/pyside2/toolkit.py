@@ -8,12 +8,12 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
     QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
     QPixmap, QRadialGradient)
-from PySide2.QtWidgets import *
+from PySide6.QtWidgets import *
 
 from  . import rsrc_rc
 
@@ -65,7 +65,7 @@ class Ui_ToolbarPanel(object):
         self.layoutWidget.setGeometry(QRect(0, 0, 33, 601))
         self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setSpacing(0)
-        self.verticalLayout.setMargin(0)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setSizeConstraint(QLayout.SetMaximumSize)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -355,7 +355,7 @@ class Ui_ToolbarPanel(object):
         font.setFamily(u"Noto Sans")
         font.setPointSize(18)
         font.setBold(True)
-        font.setWeight(75)
+        font.setWeight(QFont.Weight.DemiBold)
         self.label_2.setFont(font)
         self.label_2.setScaledContents(True)
         self.label_2.setAlignment(Qt.AlignCenter)

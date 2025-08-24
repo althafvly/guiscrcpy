@@ -24,7 +24,7 @@ has_pyside2 = False
 has_pyqt5 = False
 
 try:
-    import PySide2
+    import PySide6
 
     has_pyside2 = True
 except ModuleNotFoundError:
@@ -34,7 +34,7 @@ except ModuleNotFoundError:
         has_pyqt5 = True
     except ModuleNotFoundError:
         raise ModuleNotFoundError(
-            "Did not find either 'PyQt5' or 'PySide2' installations"
+            "Did not find either 'PyQt5' or 'PySide6' installations"
         )
 
 if has_pyside2:

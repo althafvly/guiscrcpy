@@ -176,7 +176,10 @@ class SwipeUX(QMainWindow):
 
     def mouseMoveEvent(self, event):
         try:
-            delta = QPoint(event.globalPos() - self.oldPos)
+            delta = QPoint(
+                event.globalPos().x() - self.oldPos.x(),
+                event.globalPos().y() - self.oldPos.y()
+            )
 
             self.move(self.x() + delta.x(), self.y() + delta.y())
             self.oldPos = event.globalPos()

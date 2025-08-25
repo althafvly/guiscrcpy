@@ -3,7 +3,7 @@ FROM ghcr.io/althafvly/pyappimage:master
 # adapted from https://github.com/AppImage/appimage.github.io/blob/master/.travis.yml
 
 RUN apt-get update && \
-    apt-get install -qq -y git libtool libcairo-dev libxcb-xinerama0 build-essential && \
+    apt-get install -qq -y git libtool libcairo-dev libxcb-xinerama0 build-essential libdbus-1-3 libxkbcommon0 && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 RUN python3 -m pip install wheel

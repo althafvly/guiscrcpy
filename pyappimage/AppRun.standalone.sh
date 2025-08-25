@@ -7,7 +7,7 @@ APPDIR="${APPDIR:-${here}}"
 
 export PYAPPIMAGE="TRUE"
 
-export QT_API=pyside2
+export QT_API=pyside6
 export GUISCRCPY_STANDALONE=true
 export GUISCRCPY_APPIMAGE=True
 ${APPDIR}/guiscrcpy/guiscrcpy $@
